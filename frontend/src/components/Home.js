@@ -14,7 +14,7 @@ function Home() {
     const [errorUsers, setErrorUsers] = useState('');
 
     const handleLogout = () => {
-        // Entferne alle Auth-Daten
+        // Lösche alle Auth-Daten
         localStorage.removeItem('username');
         localStorage.removeItem('isAuthenticated');
         localStorage.removeItem('isAdmin');
@@ -51,17 +51,22 @@ function Home() {
                 </button>
             </header>
             <main className="home-main">
-                <div className="welcome-card">
+                <section className="welcome-card">
                     <h2>Dashboard</h2>
                     <p>Herzlich willkommen zu Ihrer persönlichen Übersicht.</p>
                     <p>Hier finden Sie alle wichtigen Informationen und nützliche Funktionen.</p>
                     
                     {isAdmin && (
-                        <div className="admin-section">
+                        <article className="admin-section">
                             <button onClick={fetchUsers} className="admin-button">
                                 Alle Benutzer anzeigen
                             </button>
-                            {loadingUsers && <p>Lädt...</p>}
+                            {loadingUsers && (
+                                <div className="loader-container">
+                                    <div className="loader"></div>
+                                    <p>Lädt...</p>
+                                </div>
+                            )}
                             {errorUsers && <p className="error-users">{errorUsers}</p>}
                             {users.length > 0 && (
                                 <div className="users-list">
@@ -75,9 +80,9 @@ function Home() {
                                     </ul>
                                 </div>
                             )}
-                        </div>
+                        </article>
                     )}
-                </div>
+                </section>
             </main>
         </div>
     );
