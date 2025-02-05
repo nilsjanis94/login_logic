@@ -75,3 +75,13 @@ def list_users(request):
     users = CustomUser.objects.all()
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def user_data(request):
+    """
+    Diese View liefert die persönlichen Daten des aktuell authentifizierten Benutzers.
+    """
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
