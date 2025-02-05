@@ -19,18 +19,6 @@ Die **User Dashboard App** ist eine Webanwendung, die es Benutzern ermöglicht, 
 - **Datenbank:**  
   - SQLite (Standard, kann bei Bedarf angepasst werden)
 
-## Projektstruktur 
-/backend
-├─ /users
-│ ├─ views.py # API-Endpunkte (z.B. /api/user_data/ und /api/users/)
-│ └─ urls.py # URL-Routing für Benutzer-APIs
-└─ manage.py # Django-Management-Skript
-/frontend
-├─ /src
-│ ├─ /components
-│ │ └─ Home.js # React-Komponente für die Home-Seite (zeigt persönliche Daten & Admin-Funktionen)
-│ └─ index.js # Einstiegspunkt für das React-Frontend
-└─ package.json # Frontend-Abhängigkeiten und Skripte
 
 ## Installation und Setup
 
