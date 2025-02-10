@@ -1,42 +1,143 @@
+/* Globales Styling */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Container der gesamten Home-Komponente */
 .home-wrapper {
+    /* Aktiviert Flexbox zur vertikalen Anordnung und sorgt dafür,
+       dass der Container mindestens die volle Höhe des Viewports einnimmt.
+       Zudem wird ein hellgrauer Hintergrund und Arial als Standardschriftart gesetzt. */
     display: flex;
     flex-direction: column;
+    /* Mindestens die Höhe des sichtbaren Bereichs (Viewport) */
     min-height: 100vh;
-    background: #f5f5f5;
-    font-family: 'Arial', sans-serif;
+    /* Heller Grauton als Hintergrund */
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
+    /* Standardschriftart */
+    font-family: 'Roboto', sans-serif;
+    max-width: 1200px; /* Begrenze die Breite, damit das Layout nicht zu breit wird */
+    margin: 0 auto;    /* Zentriert die Box */
+    padding: 40px 20px;
+    box-sizing: border-box;
+    color: #fff;
 }
 
+/* Header-Bereich der Home-Seite */
 .home-header {
-    background: #3f51b5;
-    color: white;
-    padding: 1rem 2rem;
+    /* Setzt den Hintergrund auf Blau, weißer Text und definiert Innenabstände.
+       Mithilfe von Flexbox werden die Kind-Elemente verteilt und vertikal zentriert. */
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 40px;
 }
 
+.header-content {
+    max-width: 70%;
+}
+
+/* Überschrift im Header */
 .home-header h1 {
+    /* Entfernt den Standardmargin, setzt Schriftgröße und Schriftgewicht */
+    font-size: 2.5rem;
     margin: 0;
-    font-size: 28px;
-    font-weight: 600;
+    letter-spacing: 1px;
 }
 
+.home-header p {
+    margin: 10px 0 0;
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+/* Stil für den Abmelde-Button */
 .logout-button {
-    background: #f44336;
+    /* Roter Hintergrund, kein Rahmen, Padding, weiße und fette Schrift,
+       Pointer-Cursor, abgerundete Kanten und sanfter Übergang für den Hover-Effekt */
+    background-color: #e84545;
     border: none;
-    padding: 0.5rem 1rem;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+    color: #fff;
+    padding: 12px 24px;
+    font-size: 1rem;
     border-radius: 4px;
-    transition: background 0.3s ease;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Hover-Effekt für den Abmelde-Button */
 .logout-button:hover {
-    background: #d32f2f;
+    /* Bei Hover wird ein dunkleres Rot angezeigt */
+    background-color: #ff554f;
+    transform: scale(1.05);
 }
 
+/* Statusmeldungen */
+.info {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.error {
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Card-Styling für die Benutzerdaten */
+.user-data-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.user-data-card h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 10px;
+}
+
+/* Layout der Benutzerdaten */
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.info-item:last-child {
+    border: none;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.value {
+    opacity: 0.9;
+}
+
+/* Hauptbereich (Main) der Home-Seite */
 .home-main {
+    /* Der Bereich wächst und füllt den verfügbaren Platz,
+       zentriert seinen Inhalt horizontal und vertikal und besitzt Innenabstände. */
     flex: 1;
     display: flex;
     justify-content: center;
@@ -44,7 +145,10 @@
     padding: 2rem;
 }
 
+/* Styling für das Willkommen-Kärtchen */
 .welcome-card {
+    /* Weißer Hintergrund, großzügiges Padding, abgerundete Ecken, Schatteneffekt,
+       maximale Breite und zentrierter Text, mit Abstand unten */
     background: white;
     padding: 2rem;
     border-radius: 8px;
@@ -55,25 +159,38 @@
     margin-bottom: 2rem;
 }
 
+/* Überschrift im Willkommen-Kärtchen */
 .welcome-card h2 {
+    /* Definiert Schriftgröße und setzt einen Abstand nach unten */
     font-size: 24px;
     margin-bottom: 15px;
 }
 
+/* Absatz im Willkommen-Kärtchen */
 .welcome-card p {
+    /* Setzt Schriftgröße, Zeilenhöhe zur besseren Lesbarkeit und Abstand nach unten */
     font-size: 16px;
     line-height: 1.5;
     margin-bottom: 10px;
 }
 
 /* Admin-Bereich */
+/* Bereich für Admin-Funktionen, abgetrennt durch oberen Rand und Abstand */
 .admin-section {
     margin-top: 2rem;
     padding-top: 1.5rem;
     border-top: 1px solid #ddd;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
+/* Admin-Button */
 .admin-button {
+    /* Grüner Hintergrund, kein Rahmen, Padding, weiße fette Schrift,
+       zeigt einen Pointer-Cursor, abgerundete Ecken und sanfter Übergang bei Hover */
     background: #4caf50;
     border: none;
     padding: 0.5rem 1rem;
@@ -84,36 +201,49 @@
     transition: background 0.3s ease;
 }
 
+/* Hover-Effekt für den Admin-Button */
 .admin-button:hover {
+    /* Bei Hover wird der Grünton etwas dunkler */
     background: #43a047;
 }
 
+/* Benutzerliste */
 .users-list {
+    /* Fügt Abstand oben hinzu und richtet den Text linksbündig aus */
     margin-top: 1rem;
     text-align: left;
 }
 
+/* Überschrift der Benutzerliste */
 .users-list h3 {
+    /* Setzt Schriftgröße und Abstand nach unten für die Überschrift */
     font-size: 20px;
     margin-bottom: 10px;
 }
 
+/* Ungeordnete Liste in der Benutzerliste */
 .users-list ul {
+    /* Entfernt Standard-Aufzählungszeichen und Padding */
     list-style: none;
     padding: 0;
 }
 
+/* Listeneinträge in der Benutzerliste */
 .users-list li {
+    /* Fügt vertikalen Innenabstand hinzu und trennt Einträge mit einer Linie */
     padding: 0.5rem 0;
     border-bottom: 1px solid #eee;
 }
 
+/* Fehlermeldungen in der Benutzerliste */
 .error-users {
+    /* Rote Schriftfarbe zur Anzeige von Fehlern und Abstand nach oben */
     color: #f44336;
     margin-top: 1rem;
 }
 
 /* Ladeanzeige */
+/* Container für die Ladeanzeige */
 .loader-container {
     display: flex;
     flex-direction: column;
@@ -121,7 +251,12 @@
     margin-top: 1rem;
 }
 
+/* Loader-Element mit Animation */
 .loader {
+    /* Bestimmt den Rahmen mit einem helleren Rand,
+       definiert den oberen Rand in einer Kontrastfarbe,
+       rundet das Element zum Kreis, legt die Größe fest und aktiviert
+       eine kontinuierliche Drehung (Spin-Animation) */
     border: 4px solid #f3f3f3;
     border-top: 4px solid #3f51b5;
     border-radius: 50%;
@@ -131,7 +266,31 @@
     margin-bottom: 0.5rem;
 }
 
+/* Animation zum Drehen des Loaders */
+/* Die @keyframes definieren eine Drehung von 0° bis 360° */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Responsive Anpassungen für mobile Geräte */
+@media (max-width: 768px) {
+    .header-content {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .home-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .logout-button {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .user-info {
+        gap: 10px;
+    }
 } 

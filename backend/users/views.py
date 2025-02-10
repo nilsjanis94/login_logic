@@ -10,6 +10,7 @@ from .models import CustomUser
 from rest_framework.authtoken.models import Token  
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # Create your views here.
 
@@ -76,12 +77,12 @@ def list_users(request):
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
 
-@api_view(['GET'])
-@authentication_classes([TokenAuthentication])
+@api_view(["GET"])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def user_data(request):
     """
-    Diese View liefert die persönlichen Daten des aktuell authentifizierten Benutzers.
+    Liefert die Benutzerdaten des aktuell authentifizierten Benutzers.
     """
     serializer = UserSerializer(request.user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.data)
