@@ -10,25 +10,29 @@ body, html {
     /* Aktiviert Flexbox zur vertikalen Anordnung und sorgt dafür,
        dass der Container mindestens die volle Höhe des Viewports einnimmt.
        Zudem wird ein hellgrauer Hintergrund und Arial als Standardschriftart gesetzt. */
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
+    min-height: 100vh;
+    width: 100%;
+    padding: 40px 20px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    /* Mindestens die Höhe des sichtbaren Bereichs (Viewport) */
-    min-height: 100vh;
-    /* Heller Grauton als Hintergrund */
-    background: linear-gradient(135deg, #1f1c2c, #928dab);
-    /* Standardschriftart */
-    font-family: 'Roboto', sans-serif;
-    max-width: 1200px; /* Begrenze die Breite, damit das Layout nicht zu breit wird */
-    margin: 0 auto;    /* Zentriert die Box */
-    padding: 40px 20px;
-    box-sizing: border-box;
-    color: #fff;
+    align-items: center;
+}
+
+/* Container, um den Inhalt auch bei sehr breiten Bildschirmen zentriert zu halten */
+.content-container {
+    width: 100%;
+    max-width: 1400px;
 }
 
 /* Header-Bereich der Home-Seite */
 .home-header {
     /* Setzt den Hintergrund auf Blau, weißer Text und definiert Innenabstände.
        Mithilfe von Flexbox werden die Kind-Elemente verteilt und vertikal zentriert. */
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -288,9 +292,40 @@ body, html {
     .logout-button {
         width: 100%;
         text-align: center;
+        margin-top: 10px;
     }
     
     .user-info {
         gap: 10px;
+    }
+}
+
+/* Anpassungen für sehr große Bildschirme/Vollbild */
+@media (min-width: 1200px) {
+    .home-wrapper {
+        padding: 60px;
+    }
+    .content-container {
+        padding: 0 20px;
+    }
+    .header-content h1 {
+        font-size: 3rem;
+    }
+    .header-content p {
+        font-size: 1.5rem;
+    }
+    /* In der Superuser-Ansicht kann die Benutzerliste im Grid-Layout dargestellt werden */
+    .user-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 40px;
+    }
+    .user-list ul {
+        grid-column: span 2;
+    }
+    .user-list-item {
+        font-size: 1.1rem;
+        padding: 16px;
     }
 } 

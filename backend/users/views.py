@@ -4,13 +4,17 @@ from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from .serializers import UserSerializer
 from .models import CustomUser 
 from rest_framework.authtoken.models import Token  
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework import viewsets
+from rest_framework.permissions import IsAdminUser
+
+User = get_user_model()
 
 # Create your views here.
 
@@ -82,7 +86,33 @@ def list_users(request):
 @permission_classes([IsAuthenticated])
 def user_data(request):
     """
-    Liefert die Benutzerdaten des aktuell authentifizierten Benutzers.
+    Gibt für Superuser alle User zurück, ansonsten nur die eigenen Daten.
     """
-    serializer = UserSerializer(request.user)
-    return Response(serializer.data)
+    if request.user.is_superuser:
+        # Alle Benutzer abfragen und serialisieren
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+    else:
+        # Nur die Daten des aktuell authentifizierten Nutzers zurückgeben
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
+@api_view(['PUT', 'PATCH'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAdminUser])
+def user_detail(request, pk):
+    """
+    Aktualisiert die Benutzerdaten eines bestimmten Nutzers.
+    Nur Superuser dürfen diese Operation durchführen.
+    """
+    try:
+        user_instance = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response({'detail': 'Benutzer nicht gefunden.'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = UserSerializer(user_instance, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
