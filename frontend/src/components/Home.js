@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
+import UserEditModal from './UserEditModal';
 import './Home.css';
 
 function Home() {
@@ -16,9 +17,8 @@ function Home() {
     const [loadingUsers, setLoadingUsers] = useState(false);
     const [errorUsers, setErrorUsers] = useState('');
 
-    // State zur Bearbeitung eines Benutzers
-    const [editingUserId, setEditingUserId] = useState(null);
-    const [editedUser, setEditedUser] = useState({});
+    // State für das aktuell zu bearbeitende Benutzerobjekt (für das Modal)
+    const [editingUser, setEditingUser] = useState(null);
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
@@ -64,34 +64,32 @@ function Home() {
         }
     };
 
-    // Startet die Bearbeitung eines bestimmten Users
+    // Öffnet das Modal mit den aktuellen Benutzerdaten
     const startEditing = (user) => {
-        setEditingUserId(user.id);
-        setEditedUser(user);
+        setEditingUser(user);
     };
 
+    // Schließt das Modal ohne Änderungen
     const cancelEditing = () => {
-        setEditingUserId(null);
-        setEditedUser({});
+        setEditingUser(null);
     };
 
-    // Speichert die geänderten Daten für einen User
-    const saveUserEdition = async (userId) => {
+    // Speichert die Änderungen des Benutzers
+    const handleUserSave = async (updatedUser) => {
         try {
             const accessToken = localStorage.getItem('accessToken');
             const response = await axios.put(
-                `http://localhost:8000/api/users/${userId}/`,
-                editedUser,
+                `http://localhost:8000/api/users/${updatedUser.id}/`,
+                updatedUser,
                 {
                     headers: { Authorization: `Bearer ${accessToken}` },
                 }
             );
-            // Aktualisiert den lokalen State (Liste aller Benutzer) mit den neuen Daten
+            // Benutzerliste aktualisieren
             setUserDetails((prevUsers) =>
-                prevUsers.map((user) => (user.id === userId ? response.data : user))
+                prevUsers.map((user) => (user.id === updatedUser.id ? response.data : user))
             );
-            setEditingUserId(null);
-            setEditedUser({});
+            setEditingUser(null);
         } catch (err) {
             console.error('Fehler beim Aktualisieren des Benutzers:', err);
             setError('Fehler beim Aktualisieren des Benutzers.');
@@ -119,51 +117,12 @@ function Home() {
                     <ul>
                         {userDetails.map((user) => (
                             <li key={user.id} className="user-list-item">
-                                {editingUserId === user.id ? (
-                                    <div className="edit-form">
-                                        <input
-                                            type="text"
-                                            value={editedUser.username || ''}
-                                            onChange={(e) =>
-                                                setEditedUser({ ...editedUser, username: e.target.value })
-                                            }
-                                            placeholder="Benutzername"
-                                        />
-                                        <input
-                                            type="email"
-                                            value={editedUser.email || ''}
-                                            onChange={(e) =>
-                                                setEditedUser({ ...editedUser, email: e.target.value })
-                                            }
-                                            placeholder="Email"
-                                        />
-                                        <input
-                                            type="text"
-                                            value={editedUser.first_name || ''}
-                                            onChange={(e) =>
-                                                setEditedUser({ ...editedUser, first_name: e.target.value })
-                                            }
-                                            placeholder="Vorname"
-                                        />
-                                        <input
-                                            type="text"
-                                            value={editedUser.last_name || ''}
-                                            onChange={(e) =>
-                                                setEditedUser({ ...editedUser, last_name: e.target.value })
-                                            }
-                                            placeholder="Nachname"
-                                        />
-                                        <button onClick={() => saveUserEdition(user.id)}>Speichern</button>
-                                        <button onClick={cancelEditing}>Abbrechen</button>
-                                    </div>
-                                ) : (
-                                    <div className="user-row">
-                                        <span>
-                                            <strong>{user.username}</strong> – {user.email} – {user.first_name} {user.last_name}
-                                        </span>
-                                        <button onClick={() => startEditing(user)}>Bearbeiten</button>
-                                    </div>
-                                )}
+                                <span>
+                                    <strong>{user.username}</strong> – {user.email} – {user.first_name} {user.last_name}
+                                </span>
+                                <button className="edit-button" onClick={() => startEditing(user)}>
+                                    Bearbeiten
+                                </button>
                             </li>
                         ))}
                     </ul>
@@ -213,6 +172,14 @@ function Home() {
                         </div>
                     )}
                 </article>
+            )}
+
+            {editingUser && (
+                <UserEditModal
+                    user={editingUser}
+                    onSave={handleUserSave}
+                    onCancel={cancelEditing}
+                />
             )}
         </div>
     );

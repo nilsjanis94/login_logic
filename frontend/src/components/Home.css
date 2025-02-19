@@ -328,4 +328,37 @@ body, html {
         font-size: 1.1rem;
         padding: 16px;
     }
-} 
+}
+
+/* Sicherstellen, dass die Listeneinträge als Flex-Container definiert sind */
+.user-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    /* Optionale relative Positionierung, falls du weitere Positionierungen (z.B. Icons) wünschst */
+    position: relative;
+}
+
+/* Stil für den Edit-Button */
+.edit-button {
+    background-color: #3a86ff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    
+    /* Ausrichtung: Optional mit margin-left als "Spacer", der ihn weiter vom Text abhebt */
+    margin-left: 20px;
+}
+
+.edit-button:hover {
+    background-color: #265df2;
+    transform: translateY(-2px);
+}
+
+/* Optional: Falls du den Button lieber als Icon mit Text (z.B. einem Stift-Symbol) darstellen möchtest,
+   kannst du hier weitere Anpassungen vornehmen. */ 
